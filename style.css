@@ -1,0 +1,979 @@
+html,
+body {
+	background-color: white;
+	color: white;
+ 	font-family: "Jost", sans-serif;
+
+ 	font-weight: 100;
+ 	font-style: normal;
+ 	cursor: url("cursor.png") 24 24, auto !important;
+}
+
+/* CONTAINER */
+
+.container {
+  width: 1450px;
+  margin:0px auto;
+  background-color: white;
+}
+
+/* CONTAINER - TEXT */
+h1 {
+  margin-top: 0;
+}
+
+h1{
+  color: red;
+  font-family: "DM Serif Display", serif;
+    font-weight: 400;
+    font-size: 60px;
+    font-style: normal;
+    font-weight: bold;
+}
+
+h2{
+  color: red;
+  font-family: "Jost";
+    font-size: 40px;
+    font-weight: 250;
+}
+
+h3{
+    color: red;
+    font-family: "Monsieur la Doulaise";
+    font-weight: 400;
+    font-size: 100px;
+    font-style: normal;
+
+}
+
+.films-btn,
+.about-btn,
+.contact-btn,
+.watch-btn {
+    z-index: 200;
+    font-weight: 400;
+}
+
+/* CONTAINER SCREENS*/
+
+@media (max-width: 760px) {
+  .container{
+    width: 600px;
+  } 
+  .container {
+    width: 95%;
+  } 
+  .portfolio ul {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .portfolio img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media (max-width: 500px) {
+  .container{
+    width: 400px;
+  } 
+  .portfolio ul {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .portfolio img {
+    width: 100%;
+    height: auto;
+  }
+
+  h1, h2, h3 {
+    font-size: 50px;
+  }
+}
+
+/* JOIA TITLE */
+
+.joia-title {
+    position: fixed;
+    top: 5%;
+    left: 2%;
+    margin: 0;
+    z-index: 200;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.joia-title h3 {
+    margin: 0;
+    line-height: 0.8;
+}
+
+.joia-title span {
+    margin-top: 5px;
+    margin-left: 235px;
+
+    font-family: "Jost", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    line-height: 1;
+    color: red;
+    white-space: nowrap;
+}
+/* HEADER */
+
+.header {
+  width: auto;
+  margin: 30px auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header a {
+  margin-right: 50px;
+  text-decoration: none;
+  color: black;
+  font-size: 15px;
+}
+
+/* PORTAFOLIO */
+
+.portfolio{
+  border-top: 1px dashed black;
+  border-bottom: 1px dashed black;
+  padding-top: 18px;
+}
+
+/* BOTTOM */
+
+/* SOCIALS */
+
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+a:hover {
+  text-decoration: underline;
+  }
+
+.portfolio ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-left: 0;
+  display: flex;
+  gap: 40px;
+}
+
+
+.title h1:hover {
+  color: #b71b16;
+  text-decoration: underline;
+  text-decoration-color: #b71b16;
+}
+
+/* ABOUT PANEL */
+
+.about-panel {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 0, 0, 0.5);
+
+
+    opacity: 0;
+    visibility: hidden;
+
+}
+
+.about-panel.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.about-content {
+    width: 80%;
+    max-width: 800px;
+
+    padding: 80px 40px;
+
+    text-align: justify;
+    color: white;
+    font-family: "Helvetica";
+    font-size: 20px;
+}
+
+/* CONTACT PANEL */
+
+.contact-panel {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 0, 0, 0.5);
+
+    opacity: 0;
+    visibility: hidden;
+    overflow-y: auto;
+}
+
+.contact-panel.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* CONTENT */
+
+.contact-content {
+    width: 80%;
+    max-width: 700px;
+
+    padding: 80px 40px;
+
+    color: white;
+
+}
+
+
+/* TITLE */
+
+.contact-label {
+    color: white;
+
+    font-family: "Helvetica", sans-serif;
+
+    font-size: 12px;
+    letter-spacing: 4px;
+
+    margin-bottom: 25px;
+}
+
+.contact-content h1 {
+    color: white;
+
+    font-family: "DM Serif Display", serif;
+
+    font-size: 30px;
+    font-weight: 400;
+
+    line-height: 1.05;
+
+    margin: 0 0 50px;
+}
+
+
+/* FORM */
+
+.contact-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+
+/* INPUTS */
+
+.contact-content input,
+.contact-content textarea {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    background: transparent;
+
+    border: none;
+    border-bottom: 1px solid rgba(255,255,255,0.6);
+
+    padding: 12px 0;
+
+    outline: none;
+
+    color: white;
+
+    font-family: "Helvetica", sans-serif;
+
+    font-size: 18px;
+}
+
+.contact-content input::placeholder,
+.contact-content textarea::placeholder {
+
+    color: rgba(255,255,255,0.55);
+}
+
+
+/* FOCUS */
+
+.contact-content input:focus,
+.contact-content textarea:focus {
+
+    border-bottom: 1px solid white;
+}
+
+
+/* MESSAGE */
+
+.contact-content textarea {
+
+    min-height: 80px;
+
+    resize: none;
+}
+
+
+/* BUTTON */
+
+.contact-content button {
+
+    align-self: flex-start;
+
+    margin-top: 15px;
+
+    background: transparent;
+
+    border: none;
+
+    color: white;
+
+    font-family: "Jost", sans-serif;
+
+    font-size: 18px;
+
+    letter-spacing: 3px;
+
+    cursor: pointer;
+
+    padding: 0;
+}
+
+.contact-content button:hover {
+
+    text-decoration: underline;
+}
+
+
+
+/* =====================================================
+   FILMS MENU
+===================================================== */
+
+.films-btn a {
+    color: red;
+    text-decoration: none;
+}
+
+.films-btn a:hover {
+    text-decoration: underline;
+}
+
+
+/* =====================================================
+   INDIVIDUAL FILMS
+===================================================== */
+
+.film-page {
+    position: fixed;
+    inset: 0;
+
+    z-index: 1;
+
+    opacity: 0;
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transition: opacity 0.6s ease;
+}
+
+
+/* NOMÉS ES MOSTRA EL FILM SELECCIONAT */
+
+.film-page:target {
+    opacity: 1;
+    visibility: visible;
+
+    pointer-events: auto;
+}
+
+
+/* VÍDEO DEL FILM */
+
+.film-page video {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    visibility: hidden;
+}
+
+
+/* EL VÍDEO NOMÉS ÉS VISIBLE QUAN EL FILM ESTÀ ACTIU */
+
+.film-page:target video {
+    visibility: visible;
+}
+
+
+/* CAPA SOBRE EL VÍDEO */
+
+.film-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.15);
+
+    pointer-events: none;
+}
+
+
+/* TÍTOL DEL FILM */
+
+.film-title {
+    position: absolute;
+
+    top: 4%;
+    left: 4%;
+
+    z-index: 2;
+
+    color: white;
+
+    font-family: "Jost", sans-serif;
+
+    font-size: 18px;
+    letter-spacing: 3px;
+
+    text-decoration: none;
+}
+
+.film-title:hover {
+    text-decoration: underline;
+}
+
+
+/* WATCH */
+
+.film-watch {
+    position: absolute;
+
+    bottom: 4%;
+    right: 4%;
+
+    z-index: 2;
+
+    color: white;
+
+    font-family: "Jost", sans-serif;
+
+    font-size: 18px;
+    letter-spacing: 3px;
+
+    text-decoration: none;
+}
+
+.film-watch:hover {
+    text-decoration: underline;
+}
+
+
+/* CLOSE */
+
+.film-close {
+    position: absolute;
+
+    bottom: 4%;
+    left: 4%;
+
+    z-index: 2;
+
+    color: white;
+
+    font-family: "Jost", sans-serif;
+
+    font-size: 18px;
+    letter-spacing: 3px;
+
+    text-decoration: none;
+}
+
+.film-close:hover {
+    text-decoration: underline;
+}
+
+/* =====================================================
+   FILM ACTIVE INDICATOR
+===================================================== */
+
+.film-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+
+/* RED ACTIVE DOT */
+
+.film-live-dot {
+    width: 17px;
+    height: 17px;
+
+    background: red;
+    border-radius: 50%;
+
+    opacity: 0;
+    transform: scale(0.6);
+
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
+
+    flex-shrink: 0;
+}
+
+
+/* ACTIVE FILM */
+
+.film-item.active .film-live-dot {
+    opacity: 1;
+    transform: scale(1);
+
+    animation: joia-record-pulse 2s ease-in-out infinite;
+}
+
+
+/* SUBTLE PULSE */
+
+@keyframes joia-record-pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.35;
+        transform: scale(0.82);
+    }
+}
+
+/* =====================================================
+   FULL FILM / WATCH
+===================================================== */
+
+.full-film {
+    position: fixed;
+    inset: 0;
+
+    z-index: 100;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: black;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition: opacity 0.6s ease;
+}
+
+.full-film:target {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+/* VÍDEO COMPLET */
+
+.full-film video {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+}
+
+
+/* CLOSE DEL VÍDEO */
+
+.full-film-close {
+    position: absolute;
+
+    top: 4%;
+    right: 4%;
+
+    z-index: 101;
+
+    color: white;
+
+    font-family: "Jost", sans-serif;
+
+    font-size: 14px;
+    letter-spacing: 3px;
+
+    text-decoration: none;
+}
+
+.full-film-close:hover {
+    text-decoration: underline;
+}
+
+
+/* =====================================================
+   MÒBIL
+===================================================== */
+
+@media (max-width: 600px) {
+
+    /* MENU PRINCIPAL */
+
+    .films-btn,
+    .about-btn,
+    .contact-btn,
+    .watch-btn {
+        font-size: 12px;
+        letter-spacing: 2px;
+    }
+
+    /* MENÚ FILMS */
+
+    .films-list {
+        gap: 15px;
+        width: 90%;
+    }
+
+    .films-list a {
+        font-size: 32px !important;
+        line-height: 1.1;
+    }
+
+    /* PÀGINES DE CADA FILM */
+
+    .film-title,
+    .film-watch,
+    .film-close {
+        font-size: 12px;
+        letter-spacing: 2px;
+    }
+
+    /* ABOUT */
+
+    .about-content {
+        width: 85%;
+        padding: 40px 20px;
+    }
+
+    .about-content p {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    /* CONTACT */
+
+    .contact-content {
+        width: 85%;
+        padding: 40px 20px;
+    }
+
+    .contact-content h1 {
+        font-size: 36px;
+        line-height: 1.05;
+        margin-bottom: 35px;
+    }
+
+    .contact-content input,
+    .contact-content textarea {
+        font-size: 14px;
+    }
+
+    .contact-label {
+        font-size: 10px;
+        letter-spacing: 3px;
+    }
+
+    .close-contact,
+    .close-films,
+    .full-film-close {
+        font-size: 11px;
+        letter-spacing: 2px;
+    }
+}
+
+/* =====================================================
+   FILMS TOGGLE
+===================================================== */
+
+#films-toggle {
+    display: none;
+}
+
+.films-btn {
+    position: fixed;
+    top: 4%;
+    right: 4%;
+
+    font-family: "Jost", sans-serif;
+    font-size: 30px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    line-height: 0.9;
+
+    color: red;
+    z-index: 200;
+    cursor: pointer;
+}
+
+.films-btn:hover {
+    text-decoration: underline;
+}
+
+/* =========================
+   FILMS MENU
+========================= */
+
+.films-menu {
+    position: fixed;
+    top: 13%;
+    right: 5%;
+
+    z-index: 20;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+        opacity 0.5s ease,
+        visibility 0.5s ease;
+}
+
+
+/* Subtle cinematic veil behind the list */
+
+.films-menu::before {
+    content: "";
+    position: absolute;
+
+    top: -80px;
+    right: -100px;
+
+    width: 620px;
+    height: 700px;
+
+    background: radial-gradient(
+        ellipse at center,
+        rgba(0,0,0,0.20) 0%,
+        rgba(0,0,0,0.10) 40%,
+        rgba(0,0,0,0) 72%
+    );
+
+    pointer-events: none;
+
+    z-index: -1;
+}
+
+
+#films-toggle:checked ~ .films-menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+
+.films-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+    gap: 35px;
+}
+
+
+
+.film-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    margin-bottom: 24px;
+}
+
+
+/* NUMBER */
+
+.film-number {
+    font-family: "Jost", sans-serif;
+
+    font-size: 20px;
+    font-weight: 400;
+
+    letter-spacing: 2.5px;
+
+    line-height: 1;
+
+    color: rgba(255,255,255,0.68);
+
+    margin-bottom: 5px;
+
+    pointer-events: none;
+
+    text-shadow: 0 1px 8px rgba(0,0,0,0.25);
+}
+
+
+/* TITLE */
+
+.film-item a,
+.film-coming-soon {
+    font-family: "DM Serif Display", serif;
+
+    font-size: 30px;
+    font-weight: 400;
+
+    line-height: 1.05;
+
+    color: white;
+    text-decoration: none;
+
+    text-shadow: 0 1px 12px rgba(0,0,0,0.22);
+
+    transition: opacity 0.3s ease;
+}
+
+
+.film-item a:hover {
+    opacity: 0.55;
+}
+
+.film-item a {
+    opacity: 0.85;
+}
+
+.film-item.active a {
+    opacity: 1;
+}
+
+.film-item.active .film-live-dot {
+    opacity: 1;
+    animation: joia-record-pulse 2s ease-in-out infinite;
+}
+
+/* LOCATION */
+
+.film-location {
+    margin-top: 7px;
+
+    font-family: "Jost", sans-serif;
+
+    font-size: 20px;
+    font-weight: 300;
+
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+
+    color: rgba(255,255,255,0.68);
+
+    line-height: 1;
+
+    text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+}
+
+
+/* FUTURE FILM */
+
+.film-coming-soon {
+    color: rgba(255,255,255,0.5);
+}
+
+/* =========================
+   MOBILE — FILMS MENU
+========================= */
+
+@media (max-width: 768px) {
+
+    .films-menu {
+        top: 13%;
+        right: 6%;
+    }
+
+    .films-menu::before {
+        top: -60px;
+        right: -80px;
+
+        width: 420px;
+        height: 650px;
+    }
+
+    .film-item {
+        margin-bottom: 20px;
+    }
+
+    .film-number {
+        font-size: 9px;
+        letter-spacing: 2px;
+        margin-bottom: 4px;
+    }
+
+    .film-item a,
+    .film-coming-soon {
+        font-size: 22px;
+        line-height: 1.08;
+    }
+
+    .film-location {
+        margin-top: 6px;
+
+        font-size: 8px;
+        letter-spacing: 1.5px;
+    }
+
+}
+
+@media (max-width: 768px) {
+
+    .films-btn {
+        font-size: 22px;
+        letter-spacing: 2px;
+
+    }
+
+    .contact-btn,
+    .watch-btn {
+        font-size: 22px;
+        letter-spacing: 2px;
+    }
+
+    .about-btn h3 {
+        font-size: 42px;
+    }
+
+}
+

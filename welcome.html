@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <title>THE VISION | Destination Wedding Filmmaker | Europe</title>
+    <meta name="desciption" content="Signature Documentary films for authentic couples.">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Monsieur+La+Doulaise&family=Pinyon+Script&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+</head>
+
+<style>
+
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: "Jost", sans-serif;
+    cursor: url("cursor.png") 24 24, auto;
+}
+
+/* Vídeo de fons */
+
+video {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Capa fosca opcional per llegir millor el text */
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.2);
+}
+
+/* Eslògan */
+
+.films-btn {
+    position: absolute;
+    top: 4%;
+    right: 0%;
+    transform: translate(-50%, -50%);
+
+    font-family: "Jost", sans-serif;
+    font-size: 40px;
+    letter-spacing: 3px;
+
+    line-height: 0.9;
+    text-align: left;
+    color: red;
+
+    z-index: 2;
+}
+
+.top-nav {
+    position: fixed;
+    top: 4%;
+    right: 4%;
+
+    display: flex;
+    align-items: center;
+    gap: 55px;
+
+    font-family: "Jost", sans-serif;
+    font-weight: 400;
+    font-size: 25px;
+    letter-spacing: 3px;
+    line-height: 0.9;
+
+    z-index: 100;
+}
+
+.top-nav a,
+.top-nav label {
+color: red;
+text-decoration: none;
+cursor: pointer;
+}
+
+.top-nav a:hover,
+.top-nav label:hover {
+text-decoration: underline;
+}
+
+
+.watch-btn {
+    position: absolute;
+    bottom: 4%;
+    right: 2%;
+    transform: translate(-50%, -50%);
+
+    font-family: "Jost", sans-serif;
+    font-size: 25px;
+    letter-spacing: 3px;
+
+    line-height: 0.9;
+    text-align: left;
+    color: red;
+
+    z-index: 2;
+}
+.watch-btn a {
+    color: red;
+    text-decoration: none;
+}
+
+.watch-btn a:hover {
+    text-decoration: underline;
+}
+
+/* =====================================================
+   CINEMA MODE
+===================================================== */
+
+body.cinema-active .top-nav,
+body.cinema-active .joia-title,
+body.cinema-active .watch-btn,
+body.cinema-active .overlay,
+body.cinema-active .films-menu {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+
+/* Vídeo actual en Cinema Mode */
+
+body.cinema-active .cinema-active-video {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1000;
+}
+
+
+/* Film secundari */
+
+body.cinema-active .film-page.cinema-active-film {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    z-index: 1000;
+}
+
+
+/* Eliminem la capa fosca durant WATCH */
+
+body.cinema-active .film-page.cinema-active-film .film-overlay {
+    display: none;
+}
+
+</style>
+
+<body>
+
+    <video id="hero-video" autoplay muted loop playsinline preload="metadata">
+        <source src="images/1-anais.mp4" type="video/mp4">
+    </video>
+
+    <div class="overlay"> </div>
+
+    <div class="top-nav"> 
+        <a href="#about" id="about-btn">ABOUT</a> 
+        <a href="#contact" id="contact-btn">CONTACT</a> 
+        <label for="films-toggle">FILMS</label>
+    </div>
+
+    <input type="checkbox" id="films-toggle">
+       
+
+    <div class="joia-title">
+   
+            <h3>The Vision</h3>
+            <span>WEDDING FILMS · EUROPE</span> </div>
+    </div>
+ 
+    <div class="watch-btn">
+        <a id="watch-link" href="#">WATCH</a>
+    </div>
+
+    <div class="about-panel" id="about">
+    <div class="about-content">
+        <p class="about-label"></p>
+        <p>
+        Hi, I'm Mia. I work with couples who would rather be themselves than pose impersonally. I create author documentary films. <p>
+
+I work with respect and support, leaving room for things to unfold naturally.<p>
+
+My eye is cinematic and haute couture. I build the story of your big day through aesthetics and atmosphere. I incorporate sounds, gestures and small details that hold special meaning for you.<p>
+
+If there is a symbol, a metaphor or something that is part of your story, it can also find its place in the film.
+        </p>
+    </div>
+    </div>
+
+    <div class="contact-panel" id="contact">
+    <div class="contact-content">
+        <p class="contact-label">LET'S TALK</p>
+        <h1>Tell us a little about your day.</h1>
+        <form>
+            <input 
+                type="text" 
+                name="name" 
+                placeholder="Your name"
+            >
+
+            <input 
+                type="email" 
+                name="email" 
+                placeholder="Email"
+            >
+
+            <input 
+                type="text" 
+                name="weddingDate" 
+                placeholder="Wedding date"
+            >
+
+            <input 
+                type="text" 
+                name="weddingLocation" 
+                placeholder="Wedding location"
+            >
+
+            <input 
+                type="text" 
+                name="venue" 
+                placeholder="Venue"
+            >
+
+            <textarea 
+                name="message" 
+                placeholder="Tell us a little about your plans..."
+            ></textarea>
+
+            <button type="submit">
+                SEND ENQUIRY
+            </button>
+
+            </form>
+
+    </div>
+    </div>
+
+<div class="films-menu">
+
+    <div class="films-list">
+
+        <div class="film-item" data-film="anais">
+            <div class="film-number">001</div>
+
+            <div class="film-title-row">
+                <span class="film-live-dot"></span>
+                <a href="#anais">From Paris to Mas Solers</a>
+            </div>
+
+            <div class="film-location">BARCELONA · SPAIN</div>
+        </div>
+
+
+        <div class="film-item" data-film="cristina">
+            <div class="film-number">002</div>
+
+            <div class="film-title-row">
+                <span class="film-live-dot"></span>
+                <a href="#cristina">The Wine Cellar</a>
+            </div>
+
+            <div class="film-location">BARCELONA · SPAIN</div>
+        </div>
+
+
+        <div class="film-item" data-film="paloma">
+            <div class="film-number">003</div>
+
+            <div class="film-title-row">
+                <span class="film-live-dot"></span>
+                <a href="#paloma">Mediterranean Love</a>
+            </div>
+
+            <div class="film-location">COSTA BRAVA · SPAIN</div>
+        </div>
+
+
+        <div class="film-item" data-film="alberto">
+            <div class="film-number">004</div>
+
+            <div class="film-title-row">
+                <span class="film-live-dot"></span>
+                <a href="#alberto">Autumn at Finca Mas Solers</a>
+            </div>
+
+            <div class="film-location">BARCELONA · SPAIN</div>
+        </div>
+
+
+        <div class="film-item" data-film="laia">
+            <div class="film-number">005</div>
+
+            <div class="film-title-row">
+                <span class="film-live-dot"></span>
+                <a href="#laia">Andorra n' Bikes</a>
+            </div>
+
+            <div class="film-location">ANDORRA</div>
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- CRISTINA & DAVID -->
+
+<div class="film-page" id="cristina">
+
+    <video muted loop playsinline preload="none">
+        <source src="images/2-cris.mp4" type="video/mp4">
+    </video>
+
+    <div class="film-overlay"></div>
+
+</div>
+
+<!-- PALOMA & SERGI -->
+
+<div class="film-page" id="paloma">
+
+    <video muted loop playsinline preload="none">
+        <source src="images/3-palo.mp4" type="video/mp4">
+    </video>
+
+<div class="film-overlay"></div> 
+
+</div>
+
+<!-- ALBERTO & CARLOS -->
+
+<div class="film-page" id="alberto">
+
+    <video muted loop playsinline preload="none">
+        <source src="images/4-alberto.mp4" type="video/mp4">
+    </video>
+
+<div class="film-overlay"></div> 
+
+</div>
+
+<!-- LAIA & JAUME -->
+
+<div class="film-page" id="laia">
+
+    <video muted loop playsinline preload="none">
+        <source src="images/5-laia (no HD).mp4" type="video/mp4">
+    </video>
+
+<div class="film-overlay"></div> 
+
+</div>
+
+
+
+<script>
+
+/* =====================================================
+   FILMS
+===================================================== */
+
+const films = {
+    "#anais": "images/1-anais.mp4",
+    "#cristina": "images/2-cris.mp4",
+    "#paloma": "images/3-palo.mp4",
+    "#alberto": "images/4-alberto.mp4",
+    "#laia": "images/5-laia (no HD).mp4"
+};
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const watchLink = document.getElementById("watch-link");
+const heroVideo = document.getElementById("hero-video");
+
+const aboutBtn = document.getElementById("about-btn");
+const contactBtn = document.getElementById("contact-btn");
+
+const aboutPanel = document.getElementById("about");
+const contactPanel = document.getElementById("contact");
+
+const filmsToggle = document.getElementById("films-toggle");
+
+
+/* =====================================================
+   ACTIVE FILM
+===================================================== */
+
+function getCurrentFilm() {
+
+    const hash = window.location.hash;
+
+    if (films[hash]) {
+        return hash;
+    }
+
+    return "#anais";
+}
+
+
+function updateActiveFilm() {
+
+    const currentFilm = getCurrentFilm().replace("#", "");
+
+    document.querySelectorAll(".film-item").forEach(item => {
+
+        const film = item.dataset.film;
+
+        if (film === currentFilm) {
+            item.classList.add("active");
+        } else {
+            item.classList.remove("active");
+        }
+
+    });
+
+}
+
+
+/* =====================================================
+   FILM PLAYBACK
+===================================================== */
+
+function updateFilmPlayback() {
+
+    const currentFilm = getCurrentFilm();
+
+    /* ---------------------------------------------
+       ANAÏS = HERO VIDEO
+    --------------------------------------------- */
+
+    if (currentFilm === "#anais") {
+
+        /* Pause all secondary videos */
+
+        document.querySelectorAll(".film-page video").forEach(video => {
+            video.pause();
+        });
+
+        /* Hero video should play muted */
+
+        heroVideo.muted = true;
+
+        heroVideo.controls = false;
+
+        heroVideo.play().catch(() => {});
+
+        return;
+    }
+
+
+    /* ---------------------------------------------
+       SELECTED FILM
+    --------------------------------------------- */
+
+    const filmPage = document.querySelector(
+        '.film-page[id="' + currentFilm.replace("#", "") + '"]'
+    );
+
+
+    if (!filmPage) {
+        return;
+    }
+
+
+    const selectedVideo = filmPage.querySelector("video");
+
+
+    /* Pause hero */
+
+    heroVideo.pause();
+
+
+    /* Pause every film except selected */
+
+    document.querySelectorAll(".film-page video").forEach(video => {
+
+        if (video !== selectedVideo) {
+            video.pause();
+        }
+
+    });
+
+
+    /* Selected video remains muted
+       because it is a background preview */
+
+    selectedVideo.muted = true;
+
+    selectedVideo.controls = false;
+
+    selectedVideo.play().catch(() => {});
+
+}
+
+
+/* =====================================================
+   INITIALISE
+===================================================== */
+
+updateActiveFilm();
+updateFilmPlayback();
+
+
+/* =====================================================
+   HASH CHANGE
+===================================================== */
+
+window.addEventListener("hashchange", function() {
+
+    updateActiveFilm();
+    updateFilmPlayback();
+    updateWatchLink();
+
+});
+
+
+/* =====================================================
+   WATCH LINK
+===================================================== */
+
+function updateWatchLink() {
+
+    const currentFilm = getCurrentFilm();
+
+    if (films[currentFilm]) {
+        watchLink.href = "#watch";
+    }
+
+}
+
+
+updateWatchLink();
+
+
+/* =====================================================
+   FILM CLICK
+===================================================== */
+
+document.querySelectorAll(".films-list a").forEach(filmLink => {
+
+    filmLink.addEventListener("click", function() {
+
+        const filmHash = this.getAttribute("href");
+
+        if (films[filmHash]) {
+            watchLink.href = "#watch";
+        }
+
+    });
+
+});
+
+
+/* =====================================================
+   ABOUT / CONTACT
+===================================================== */
+
+function closePanels() {
+
+    aboutPanel.classList.remove("open");
+    contactPanel.classList.remove("open");
+
+}
+
+
+/* =====================================================
+   ABOUT
+===================================================== */
+
+aboutBtn.addEventListener("click", function(e) {
+
+    e.preventDefault();
+
+    const isOpen = aboutPanel.classList.contains("open");
+
+    contactPanel.classList.remove("open");
+
+    if (isOpen) {
+
+        aboutPanel.classList.remove("open");
+
+    } else {
+
+        aboutPanel.classList.add("open");
+
+    }
+
+});
+
+
+/* =====================================================
+   CONTACT
+===================================================== */
+
+contactBtn.addEventListener("click", function(e) {
+
+    e.preventDefault();
+
+    const isOpen = contactPanel.classList.contains("open");
+
+    aboutPanel.classList.remove("open");
+
+    if (isOpen) {
+
+        contactPanel.classList.remove("open");
+
+    } else {
+
+        contactPanel.classList.add("open");
+
+    }
+
+});
+
+
+/* =====================================================
+   CLICK OUTSIDE ABOUT
+===================================================== */
+
+aboutPanel.addEventListener("click", function(e) {
+
+    if (e.target === aboutPanel) {
+        aboutPanel.classList.remove("open");
+    }
+
+});
+
+
+/* =====================================================
+   CLICK OUTSIDE CONTACT
+===================================================== */
+
+contactPanel.addEventListener("click", function(e) {
+
+    if (e.target === contactPanel) {
+        contactPanel.classList.remove("open");
+    }
+
+});
+
+
+/* =====================================================
+   CINEMA MODE
+===================================================== */
+
+let cinemaVideo = null;
+
+
+/* =====================================================
+   GET CURRENT VIDEO
+===================================================== */
+
+function getCurrentVideo() {
+
+    const currentFilm = getCurrentFilm();
+
+
+    /* ANAÏS */
+
+    if (currentFilm === "#anais") {
+        return heroVideo;
+    }
+
+
+    /* OTHER FILMS */
+
+    const filmPage = document.querySelector(
+        '.film-page[id="' + currentFilm.replace("#", "") + '"]'
+    );
+
+
+    if (filmPage) {
+
+        return filmPage.querySelector("video");
+
+    }
+
+
+    return heroVideo;
+
+}
+
+
+/* =====================================================
+   OPEN CINEMA MODE
+===================================================== */
+
+function openCinemaMode() {
+
+    cinemaVideo = getCurrentVideo();
+
+
+    if (!cinemaVideo) {
+        return;
+    }
+
+
+    /* Close About / Contact */
+
+    closePanels();
+
+
+    /* Close Films menu */
+
+    filmsToggle.checked = false;
+
+
+    /* ---------------------------------------------
+       VIDEO
+    --------------------------------------------- */
+
+    cinemaVideo.classList.add("cinema-active-video");
+
+
+    /* Start from beginning */
+
+    cinemaVideo.currentTime = 0;
+
+
+    /* Enable sound */
+
+    cinemaVideo.muted = false;
+    cinemaVideo.volume = 1;
+
+
+    /* ---------------------------------------------
+       NATIVE VIDEO CONTROLS
+    --------------------------------------------- */
+
+    cinemaVideo.controls = true;
+
+
+    /* ---------------------------------------------
+       PLAY
+    --------------------------------------------- */
+
+    const playPromise = cinemaVideo.play();
+
+    if (playPromise !== undefined) {
+
+        playPromise.catch(() => {
+
+            /*
+             Some browsers may block autoplay with sound.
+             The native controls remain available so the
+             user can press Play.
+            */
+
+        });
+
+    }
+
+
+    /* ---------------------------------------------
+       FILM PAGE
+    --------------------------------------------- */
+
+    const filmPage = cinemaVideo.closest(".film-page");
+
+
+    if (filmPage) {
+
+        filmPage.classList.add("cinema-active-film");
+
+    }
+
+
+    /* ---------------------------------------------
+       BODY
+    --------------------------------------------- */
+
+    document.body.classList.add("cinema-active");
+
+}
+
+
+/* =====================================================
+   CLOSE CINEMA MODE
+===================================================== */
+
+function closeCinemaMode() {
+
+    if (!cinemaVideo) {
+        return;
+    }
+
+
+    /* ---------------------------------------------
+       REMOVE NATIVE CONTROLS
+    --------------------------------------------- */
+
+    cinemaVideo.controls = false;
+
+
+    /* ---------------------------------------------
+       MUTE AGAIN
+    --------------------------------------------- */
+
+    cinemaVideo.muted = true;
+
+
+    /* ---------------------------------------------
+       PLAY BACKGROUND AGAIN
+    --------------------------------------------- */
+
+    cinemaVideo.play().catch(() => {});
+
+
+    /* ---------------------------------------------
+       REMOVE CINEMA CLASS
+    --------------------------------------------- */
+
+    cinemaVideo.classList.remove("cinema-active-video");
+
+
+    /* ---------------------------------------------
+       FILM PAGE
+    --------------------------------------------- */
+
+    const filmPage = cinemaVideo.closest(".film-page");
+
+
+    if (filmPage) {
+
+        filmPage.classList.remove("cinema-active-film");
+
+    }
+
+
+    /* ---------------------------------------------
+       BODY
+    --------------------------------------------- */
+
+    document.body.classList.remove("cinema-active");
+
+
+    /* ---------------------------------------------
+       CLEAR REFERENCE
+    --------------------------------------------- */
+
+    cinemaVideo = null;
+
+}
+
+
+/* =====================================================
+   WATCH BUTTON
+===================================================== */
+
+watchLink.addEventListener("click", function(e) {
+
+    e.preventDefault();
+
+    openCinemaMode();
+
+});
+
+
+/* =====================================================
+   ESC KEY
+===================================================== */
+
+document.addEventListener("keydown", function(e) {
+
+    if (e.key !== "Escape") {
+        return;
+    }
+
+
+    /* If cinema mode is open */
+
+    if (document.body.classList.contains("cinema-active")) {
+
+        closeCinemaMode();
+
+        return;
+
+    }
+
+
+    /* Otherwise close panels */
+
+    closePanels();
+
+});
+
+
+/* =====================================================
+   CLICK ON VIDEO TO EXIT CINEMA
+   (OPTIONAL)
+===================================================== */
+
+/*
+   Disabled intentionally.
+
+   The native controls need the video to remain clickable,
+   especially on mobile.
+*/
+
+/* =====================================================
+   NATIVE FULLSCREEN CHANGE
+===================================================== */
+
+function handleFullscreenExit() {
+
+    if (
+        !document.fullscreenElement &&
+        document.body.classList.contains("cinema-active")
+    ) {
+
+        closeCinemaMode();
+
+    }
+
+}
+
+
+/* Chrome / Edge / Firefox */
+
+document.addEventListener(
+    "fullscreenchange",
+    handleFullscreenExit
+);
+
+
+/* Safari */
+
+document.addEventListener(
+    "webkitfullscreenchange",
+    handleFullscreenExit
+);
+</script>
+
+</body>
+</html>
