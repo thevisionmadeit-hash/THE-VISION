@@ -352,7 +352,798 @@ If there is a symbol, a metaphor or something that is part of your story, it can
 
 
 <script> 
-/* ===================================================== FILMS ===================================================== */ const films = { "#anais": "images/1-anais.mp4", "#cristina": "images/2-cris.mp4", "#paloma": "images/3-palo.mp4", "#alberto": "images/4-alberto.mp4", "#laia": "images/5-laia (no HD).mp4" }; /* ===================================================== ELEMENTS ===================================================== */ const watchLink = document.getElementById("watch-link"); const heroVideo = document.getElementById("hero-video"); const aboutBtn = document.getElementById("about-btn"); const contactBtn = document.getElementById("contact-btn"); const aboutPanel = document.getElementById("about"); const contactPanel = document.getElementById("contact"); const filmsToggle = document.getElementById("films-toggle"); /* ===================================================== CINEMA STATE ===================================================== */ let cinemaVideo = null; /* Indica si el tancament de Cinema Mode està provocat pel navegador. Això evita que ESC faci dos history.back(). */ let closingFromHistory = false; /* ===================================================== GET CURRENT FILM ===================================================== */ function getCurrentFilm() { const hash = window.location.hash; if (films[hash]) { return hash; } return "#anais"; } /* ===================================================== ACTIVE FILM ===================================================== */ function updateActiveFilm() { const currentFilm = getCurrentFilm().replace("#", ""); document.querySelectorAll(".film-item").forEach(item => { const film = item.dataset.film; if (film === currentFilm) { item.classList.add("active"); } else { item.classList.remove("active"); } }); } /* ===================================================== FILM PLAYBACK ===================================================== */ function updateFilmPlayback() { const currentFilm = getCurrentFilm(); /* ANAÏS = HERO */ if (currentFilm === "#anais") { document.querySelectorAll(".film-page video").forEach(video => { video.pause(); }); heroVideo.muted = true; heroVideo.controls = false; heroVideo.play().catch(() => {}); return; } /* SELECTED FILM */ const filmPage = document.querySelector( '.film-page[id="' + currentFilm.replace("#", "") + '"]' ); if (!filmPage) { return; } const selectedVideo = filmPage.querySelector("video"); /* Pause hero */ heroVideo.pause(); /* Pause other films */ document.querySelectorAll(".film-page video").forEach(video => { if (video !== selectedVideo) { video.pause(); } }); selectedVideo.muted = true; selectedVideo.controls = false; selectedVideo.play().catch(() => {}); } /* ===================================================== INITIALISE ===================================================== */ updateActiveFilm(); updateFilmPlayback(); /* ===================================================== HASH CHANGE ===================================================== */ window.addEventListener("hashchange", function() { updateActiveFilm(); updateFilmPlayback(); updateWatchLink(); }); /* ===================================================== WATCH LINK ===================================================== */ function updateWatchLink() { const currentFilm = getCurrentFilm(); if (films[currentFilm]) { watchLink.href = "#watch"; } } updateWatchLink(); /* ===================================================== FILM CLICK ===================================================== */ document.querySelectorAll(".films-list a").forEach(filmLink => { filmLink.addEventListener("click", function() { const filmHash = this.getAttribute("href"); if (films[filmHash]) { watchLink.href = "#watch"; } }); }); /* ===================================================== ABOUT / CONTACT ===================================================== */ function closePanels() { aboutPanel.classList.remove("open"); contactPanel.classList.remove("open"); } /* ===================================================== ABOUT ===================================================== */ aboutBtn.addEventListener("click", function(e) { e.preventDefault(); const isOpen = aboutPanel.classList.contains("open"); contactPanel.classList.remove("open"); if (isOpen) { aboutPanel.classList.remove("open"); } else { aboutPanel.classList.add("open"); } }); /* ===================================================== CONTACT ===================================================== */ contactBtn.addEventListener("click", function(e) { e.preventDefault(); const isOpen = contactPanel.classList.contains("open"); aboutPanel.classList.remove("open"); if (isOpen) { contactPanel.classList.remove("open"); } else { contactPanel.classList.add("open"); } }); /* ===================================================== CLICK OUTSIDE ABOUT ===================================================== */ aboutPanel.addEventListener("click", function(e) { if (e.target === aboutPanel) { aboutPanel.classList.remove("open"); } }); /* ===================================================== CLICK OUTSIDE CONTACT ===================================================== */ contactPanel.addEventListener("click", function(e) { if (e.target === contactPanel) { contactPanel.classList.remove("open"); } }); /* ===================================================== GET CURRENT VIDEO ===================================================== */ function getCurrentVideo() { const currentFilm = getCurrentFilm(); /* ANAÏS */ if (currentFilm === "#anais") { return heroVideo; } /* OTHER FILMS */ const filmPage = document.querySelector( '.film-page[id="' + currentFilm.replace("#", "") + '"]' ); if (filmPage) { return filmPage.querySelector("video"); } return heroVideo; } /* ===================================================== OPEN CINEMA MODE ===================================================== */ function openCinemaMode() { /* Ja està obert */ if (document.body.classList.contains("cinema-active")) { return; } cinemaVideo = getCurrentVideo(); if (!cinemaVideo) { return; } /* Close panels */ closePanels(); /* Close films menu */ filmsToggle.checked = false; /* ================================================= CREATE MOBILE-FRIENDLY HISTORY STATE ================================================= */ /* Guardem exactament la URL actual: /index.html#cristina i la convertim temporalment en: /index.html?watch=1#cristina Això permet que el botó BACK del navegador tingui un estat real al qual tornar. IMPORTANT: El hash #cristina es conserva. */ const watchURL = new URL(window.location.href); watchURL.searchParams.set("watch", "1"); history.pushState( { cinemaMode: true }, "", watchURL.pathname + watchURL.search + watchURL.hash ); /* ================================================= VIDEO ================================================= */ cinemaVideo.classList.add("cinema-active-video"); /* Start from beginning */ cinemaVideo.currentTime = 0; /* Sound */ cinemaVideo.muted = false; cinemaVideo.volume = 1; /* Native controls */ cinemaVideo.controls = true; /* ================================================= PLAY ================================================= */ const playPromise = cinemaVideo.play(); if (playPromise !== undefined) { playPromise.catch(() => {}); } /* ================================================= FILM PAGE ================================================= */ const filmPage = cinemaVideo.closest(".film-page"); if (filmPage) { filmPage.classList.add("cinema-active-film"); } /* ================================================= BODY ================================================= */ document.body.classList.add("cinema-active"); } /* ===================================================== CLOSE CINEMA MODE ===================================================== */ function closeCinemaMode(options = {}) { const fromBrowserBack = options.fromBrowserBack || false; if (!cinemaVideo) { return; } const videoToClose = cinemaVideo; /* ================================================= VIDEO ================================================= */ videoToClose.controls = false; videoToClose.muted = true; videoToClose.classList.remove("cinema-active-video"); /* ================================================= FILM PAGE ================================================= */ const filmPage = videoToClose.closest(".film-page"); if (filmPage) { filmPage.classList.remove("cinema-active-film"); } /* ================================================= BODY ================================================= */ document.body.classList.remove("cinema-active"); /* ================================================= CLEAR VIDEO ================================================= */ cinemaVideo = null; /* ================================================= RETURN TO NORMAL URL ================================================= */ if (!fromBrowserBack) { /* ESC ha de fer el mateix que BACK. Eliminem ?watch=1 de l'URL. */ const normalURL = new URL(window.location.href); normalURL.searchParams.delete("watch"); closingFromHistory = true; history.replaceState( {}, "", normalURL.pathname + normalURL.search + normalURL.hash ); /* No fem history.back() aquí. Amb replaceState ja hem eliminat l'estat de WATCH sense moure l'usuari cap a una altra pàgina. */ closingFromHistory = false; } /* ================================================= RESUME BACKGROUND ================================================= */ updateFilmPlayback(); } /* ===================================================== WATCH BUTTON ===================================================== */ watchLink.addEventListener("click", function(e) { e.preventDefault(); openCinemaMode(); }); /* ===================================================== ESC KEY ===================================================== */ document.addEventListener("keydown", function(e) { if (e.key !== "Escape") { return; } /* Cinema Mode */ if (document.body.classList.contains("cinema-active")) { closeCinemaMode(); return; } /* Panels */ closePanels(); }); /* ===================================================== BROWSER BACK / MOBILE BACK ===================================================== */ window.addEventListener("popstate", function(e) { /* Si el vídeo està obert: BACK ↓ popstate ↓ closeCinemaMode() ↓ tornem a la pàgina principal */ if (document.body.classList.contains("cinema-active")) { closeCinemaMode({ fromBrowserBack: true }); return; } /* Si per qualsevol motiu el navegador torna a un estat amb ?watch=1 però Cinema Mode no està obert, el netegem. */ const currentURL = new URL(window.location.href); if (currentURL.searchParams.has("watch")) { currentURL.searchParams.delete("watch"); history.replaceState( {}, "", currentURL.pathname + currentURL.search + currentURL.hash ); } updateActiveFilm(); updateFilmPlayback(); updateWatchLink(); }); /* ===================================================== PAGE SHOW ===================================================== */ /* Especialment útil a iPhone/Safari. Safari pot recuperar una pàgina des del BFCache (Back/Forward Cache). Quan això passa, assegurem que l'estat visual coincideixi amb la URL. */ window.addEventListener("pageshow", function() { const currentURL = new URL(window.location.href); const isWatchURL = currentURL.searchParams.has("watch"); if (!isWatchURL && document.body.classList.contains("cinema-active")) { closeCinemaMode({ fromBrowserBack: true }); } }); /* ===================================================== NATIVE FULLSCREEN CHANGE ===================================================== */ function handleFullscreenExit() { /* Només tanquem Cinema Mode si realment està obert i el navegador ha sortit del fullscreen natiu. Això evita interferències amb el Back del mòbil. */ if ( !document.fullscreenElement && document.body.classList.contains("cinema-active") ) { /* No tanquem Cinema Mode automàticament en aquest punt si només s'ha sortit del fullscreen natiu. El vídeo continua en Cinema Mode. */ } } /* Chrome / Edge / Firefox */ document.addEventListener( "fullscreenchange", handleFullscreenExit ); /* Safari */ document.addEventListener( "webkitfullscreenchange", handleFullscreenExit ); 
+/* =====================================================
+   FILMS
+===================================================== */
+
+const films = {
+    "#anais": "images/1-anais.mp4",
+    "#cristina": "images/2-cris.mp4",
+    "#paloma": "images/3-palo.mp4",
+    "#alberto": "images/4-alberto.mp4",
+    "#laia": "images/5-laia (no HD).mp4"
+};
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const watchLink = document.getElementById("watch-link");
+const heroVideo = document.getElementById("hero-video");
+
+const aboutBtn = document.getElementById("about-btn");
+const contactBtn = document.getElementById("contact-btn");
+
+const aboutPanel = document.getElementById("about");
+const contactPanel = document.getElementById("contact");
+
+const filmsToggle = document.getElementById("films-toggle");
+
+
+/* =====================================================
+   CINEMA STATE
+===================================================== */
+
+let cinemaVideo = null;
+
+/*
+   Indica si el tancament de Cinema Mode
+   està provocat pel navegador.
+*/
+let closingFromHistory = false;
+
+
+/* =====================================================
+   GET CURRENT FILM
+===================================================== */
+
+function getCurrentFilm() {
+
+    const hash = window.location.hash;
+
+    if (films[hash]) {
+        return hash;
+    }
+
+    return "#anais";
+}
+
+
+/* =====================================================
+   ACTIVE FILM
+===================================================== */
+
+function updateActiveFilm() {
+
+    const currentFilm = getCurrentFilm().replace("#", "");
+
+    document.querySelectorAll(".film-item").forEach(item => {
+
+        const film = item.dataset.film;
+
+        if (film === currentFilm) {
+            item.classList.add("active");
+        } else {
+            item.classList.remove("active");
+        }
+
+    });
+}
+
+
+/* =====================================================
+   FILM PLAYBACK
+===================================================== */
+
+function updateFilmPlayback() {
+
+    const currentFilm = getCurrentFilm();
+
+
+    /* =================================================
+       ANAÏS = HERO
+    ================================================= */
+
+    if (currentFilm === "#anais") {
+
+        document.querySelectorAll(".film-page video").forEach(video => {
+            video.pause();
+        });
+
+        heroVideo.muted = true;
+        heroVideo.controls = false;
+
+        heroVideo.play().catch(() => {});
+
+        return;
+    }
+
+
+    /* =================================================
+       SELECTED FILM
+    ================================================= */
+
+    const filmPage = document.querySelector(
+        '.film-page[id="' + currentFilm.replace("#", "") + '"]'
+    );
+
+    if (!filmPage) {
+        return;
+    }
+
+    const selectedVideo = filmPage.querySelector("video");
+
+
+    /* Pause hero */
+
+    heroVideo.pause();
+
+
+    /* Pause other films */
+
+    document.querySelectorAll(".film-page video").forEach(video => {
+
+        if (video !== selectedVideo) {
+            video.pause();
+        }
+
+    });
+
+
+    /* Play selected film */
+
+    selectedVideo.muted = true;
+    selectedVideo.controls = false;
+
+    selectedVideo.play().catch(() => {});
+}
+
+
+/* =====================================================
+   WATCH LINK
+===================================================== */
+
+function updateWatchLink() {
+
+    const currentFilm = getCurrentFilm();
+
+    if (films[currentFilm]) {
+        watchLink.href = "#watch";
+    }
+}
+
+
+/* =====================================================
+   CLOSE ALL PANELS / MENUS
+===================================================== */
+
+function closePanels() {
+
+    /* ABOUT */
+
+    if (aboutPanel) {
+        aboutPanel.classList.remove("open");
+    }
+
+
+    /* CONTACT */
+
+    if (contactPanel) {
+        contactPanel.classList.remove("open");
+    }
+
+
+    /* FILMS */
+
+    if (filmsToggle) {
+        filmsToggle.checked = false;
+    }
+}
+
+
+/* =====================================================
+   INITIALISE
+===================================================== */
+
+updateActiveFilm();
+updateFilmPlayback();
+updateWatchLink();
+
+
+/* =====================================================
+   HASH CHANGE
+===================================================== */
+
+window.addEventListener("hashchange", function () {
+
+    updateActiveFilm();
+    updateFilmPlayback();
+    updateWatchLink();
+
+});
+
+
+/* =====================================================
+   FILM CLICK
+===================================================== */
+
+document.querySelectorAll(".films-list a").forEach(filmLink => {
+
+    filmLink.addEventListener("click", function () {
+
+        const filmHash = this.getAttribute("href");
+
+        if (films[filmHash]) {
+            watchLink.href = "#watch";
+        }
+
+    });
+
+});
+
+
+/* =====================================================
+   FILMS MENU
+===================================================== */
+
+/*
+   Quan obrim FILMS:
+
+   - tanquem ABOUT
+   - tanquem CONTACT
+
+   Això evita qualsevol solapament.
+*/
+
+if (filmsToggle) {
+
+    filmsToggle.addEventListener("change", function () {
+
+        if (filmsToggle.checked) {
+
+            if (aboutPanel) {
+                aboutPanel.classList.remove("open");
+            }
+
+            if (contactPanel) {
+                contactPanel.classList.remove("open");
+            }
+
+        }
+
+    });
+
+}
+
+
+/* =====================================================
+   ABOUT
+===================================================== */
+
+if (aboutBtn && aboutPanel) {
+
+    aboutBtn.addEventListener("click", function(e) {
+
+        e.preventDefault();
+
+        const isOpen = aboutPanel.classList.contains("open");
+
+
+        /*
+           Tanquem ABOUT, CONTACT i FILMS
+           abans de decidir què obrim.
+        */
+
+        closePanels();
+
+
+        /*
+           Si ABOUT estava tancat,
+           ara l'obrim.
+        */
+
+        if (!isOpen) {
+            aboutPanel.classList.add("open");
+        }
+
+    });
+
+}
+
+
+/* =====================================================
+   CONTACT
+===================================================== */
+
+if (contactBtn && contactPanel) {
+
+    contactBtn.addEventListener("click", function(e) {
+
+        e.preventDefault();
+
+        const isOpen = contactPanel.classList.contains("open");
+
+
+        /*
+           Tanquem ABOUT, CONTACT i FILMS
+           abans de decidir què obrim.
+        */
+
+        closePanels();
+
+
+        /*
+           Si CONTACT estava tancat,
+           ara l'obrim.
+        */
+
+        if (!isOpen) {
+            contactPanel.classList.add("open");
+        }
+
+    });
+
+}
+
+
+/* =====================================================
+   CLICK OUTSIDE ABOUT
+===================================================== */
+
+if (aboutPanel) {
+
+    aboutPanel.addEventListener("click", function(e) {
+
+        if (e.target === aboutPanel) {
+            aboutPanel.classList.remove("open");
+        }
+
+    });
+
+}
+
+
+/* =====================================================
+   CLICK OUTSIDE CONTACT
+===================================================== */
+
+if (contactPanel) {
+
+    contactPanel.addEventListener("click", function(e) {
+
+        if (e.target === contactPanel) {
+            contactPanel.classList.remove("open");
+        }
+
+    });
+
+}
+
+
+/* =====================================================
+   GET CURRENT VIDEO
+===================================================== */
+
+function getCurrentVideo() {
+
+    const currentFilm = getCurrentFilm();
+
+
+    /* =================================================
+       ANAÏS
+    ================================================= */
+
+    if (currentFilm === "#anais") {
+        return heroVideo;
+    }
+
+
+    /* =================================================
+       OTHER FILMS
+    ================================================= */
+
+    const filmPage = document.querySelector(
+        '.film-page[id="' + currentFilm.replace("#", "") + '"]'
+    );
+
+    if (filmPage) {
+        return filmPage.querySelector("video");
+    }
+
+
+    return heroVideo;
+}
+
+
+/* =====================================================
+   OPEN CINEMA MODE
+===================================================== */
+
+function openCinemaMode() {
+
+    /* Ja està obert */
+
+    if (document.body.classList.contains("cinema-active")) {
+        return;
+    }
+
+
+    /* Obtenim el vídeo actual */
+
+    cinemaVideo = getCurrentVideo();
+
+    if (!cinemaVideo) {
+        return;
+    }
+
+
+    /* =================================================
+       CLOSE PANELS
+    ================================================= */
+
+    closePanels();
+
+
+    /* =================================================
+       CREATE MOBILE-FRIENDLY HISTORY STATE
+    ================================================= */
+
+    /*
+       Guardem la URL actual i afegim ?watch=1.
+
+       Exemple:
+
+       /index.html#cristina
+
+       passa temporalment a:
+
+       /index.html?watch=1#cristina
+
+       Això permet que el botó BACK del navegador
+       funcioni correctament.
+    */
+
+    const watchURL = new URL(window.location.href);
+
+    watchURL.searchParams.set("watch", "1");
+
+    history.pushState(
+        { cinemaMode: true },
+        "",
+        watchURL.pathname +
+        watchURL.search +
+        watchURL.hash
+    );
+
+
+    /* =================================================
+       VIDEO
+    ================================================= */
+
+    cinemaVideo.classList.add("cinema-active-video");
+
+    /* Start from beginning */
+
+    cinemaVideo.currentTime = 0;
+
+    /* Sound */
+
+    cinemaVideo.muted = false;
+    cinemaVideo.volume = 1;
+
+    /* Native controls */
+
+    cinemaVideo.controls = true;
+
+
+    /* =================================================
+       PLAY
+    ================================================= */
+
+    const playPromise = cinemaVideo.play();
+
+    if (playPromise !== undefined) {
+        playPromise.catch(() => {});
+    }
+
+
+    /* =================================================
+       FILM PAGE
+    ================================================= */
+
+    const filmPage = cinemaVideo.closest(".film-page");
+
+    if (filmPage) {
+        filmPage.classList.add("cinema-active-film");
+    }
+
+
+    /* =================================================
+       BODY
+    ================================================= */
+
+    document.body.classList.add("cinema-active");
+}
+
+
+/* =====================================================
+   CLOSE CINEMA MODE
+===================================================== */
+
+function closeCinemaMode(options = {}) {
+
+    const fromBrowserBack = options.fromBrowserBack || false;
+
+
+    if (!cinemaVideo) {
+        return;
+    }
+
+
+    const videoToClose = cinemaVideo;
+
+
+    /* =================================================
+       VIDEO
+    ================================================= */
+
+    videoToClose.controls = false;
+    videoToClose.muted = true;
+
+    videoToClose.classList.remove("cinema-active-video");
+
+
+    /* =================================================
+       FILM PAGE
+    ================================================= */
+
+    const filmPage = videoToClose.closest(".film-page");
+
+    if (filmPage) {
+        filmPage.classList.remove("cinema-active-film");
+    }
+
+
+    /* =================================================
+       BODY
+    ================================================= */
+
+    document.body.classList.remove("cinema-active");
+
+
+    /* =================================================
+       CLEAR VIDEO
+    ================================================= */
+
+    cinemaVideo = null;
+
+
+    /* =================================================
+       RETURN TO NORMAL URL
+    ================================================= */
+
+    if (!fromBrowserBack) {
+
+        /*
+           ESC fa el mateix que BACK.
+
+           Eliminem ?watch=1 de la URL.
+        */
+
+        const normalURL = new URL(window.location.href);
+
+        normalURL.searchParams.delete("watch");
+
+        closingFromHistory = true;
+
+        history.replaceState(
+            {},
+            "",
+            normalURL.pathname +
+            normalURL.search +
+            normalURL.hash
+        );
+
+        closingFromHistory = false;
+    }
+
+
+    /* =================================================
+       RESUME BACKGROUND
+    ================================================= */
+
+    updateFilmPlayback();
+}
+
+
+/* =====================================================
+   WATCH BUTTON
+===================================================== */
+
+if (watchLink) {
+
+    watchLink.addEventListener("click", function(e) {
+
+        e.preventDefault();
+
+        openCinemaMode();
+
+    });
+
+}
+
+
+/* =====================================================
+   ESC KEY
+===================================================== */
+
+document.addEventListener("keydown", function(e) {
+
+    if (e.key !== "Escape") {
+        return;
+    }
+
+
+    /* =================================================
+       CINEMA MODE
+    ================================================= */
+
+    if (document.body.classList.contains("cinema-active")) {
+
+        closeCinemaMode();
+
+        return;
+    }
+
+
+    /* =================================================
+       PANELS / FILMS
+    ================================================= */
+
+    closePanels();
+
+});
+
+
+/* =====================================================
+   BROWSER BACK / MOBILE BACK
+===================================================== */
+
+window.addEventListener("popstate", function(e) {
+
+    /*
+       Si el vídeo està obert:
+
+       BACK
+       ↓
+       popstate
+       ↓
+       closeCinemaMode()
+       ↓
+       tornem a la pàgina principal
+    */
+
+    if (document.body.classList.contains("cinema-active")) {
+
+        closeCinemaMode({
+            fromBrowserBack: true
+        });
+
+        return;
+    }
+
+
+    /*
+       Si per qualsevol motiu el navegador torna
+       a un estat amb ?watch=1 però Cinema Mode
+       no està obert, el netegem.
+    */
+
+    const currentURL = new URL(window.location.href);
+
+    if (currentURL.searchParams.has("watch")) {
+
+        currentURL.searchParams.delete("watch");
+
+        history.replaceState(
+            {},
+            "",
+            currentURL.pathname +
+            currentURL.search +
+            currentURL.hash
+        );
+    }
+
+
+    updateActiveFilm();
+    updateFilmPlayback();
+    updateWatchLink();
+
+});
+
+
+/* =====================================================
+   PAGE SHOW
+===================================================== */
+
+/*
+   Especialment útil a iPhone / Safari.
+
+   Safari pot recuperar una pàgina des del
+   BFCache (Back/Forward Cache).
+
+   Quan això passa, assegurem que l'estat visual
+   coincideixi amb la URL.
+*/
+
+window.addEventListener("pageshow", function() {
+
+    const currentURL = new URL(window.location.href);
+
+    const isWatchURL =
+        currentURL.searchParams.has("watch");
+
+
+    if (
+        !isWatchURL &&
+        document.body.classList.contains("cinema-active")
+    ) {
+
+        closeCinemaMode({
+            fromBrowserBack: true
+        });
+
+    }
+
+});
+
+
+/* =====================================================
+   NATIVE FULLSCREEN CHANGE
+===================================================== */
+
+function handleFullscreenExit() {
+
+    /*
+       Només comprovem l'estat.
+
+       No tanquem Cinema Mode automàticament
+       quan simplement sortim del fullscreen natiu.
+    */
+
+    if (
+        !document.fullscreenElement &&
+        document.body.classList.contains("cinema-active")
+    ) {
+
+        /*
+           El vídeo continua en Cinema Mode.
+        */
+
+    }
+
+}
+
+
+/* =====================================================
+   FULLSCREEN EVENTS
+===================================================== */
+
+/* Chrome / Edge / Firefox */
+
+document.addEventListener(
+    "fullscreenchange",
+    handleFullscreenExit
+);
+
+
+/* Safari */
+
+document.addEventListener(
+    "webkitfullscreenchange",
+    handleFullscreenExit
+);
 </script>
 
 </body>

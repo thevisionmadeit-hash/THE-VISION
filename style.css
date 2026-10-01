@@ -218,13 +218,9 @@ a:hover {
 
 .contact-text,
 .contact-text p {
-    font-family: Helvetica, sans-serif;
-}
-
-.contact-text {
-    font-size: 14px;
+    font-family: "Helvetica", sans-serif;
+    font-size: 20px;
     line-height: 1.5;
- 
 }
 
 .contact-text p {
@@ -847,9 +843,7 @@ a:hover {
     visibility: hidden;
     pointer-events: none;
 
-    transition:
-        opacity 0.5s ease,
-        visibility 0.5s ease;
+    transition: none;
 }
 
 
@@ -990,7 +984,7 @@ a:hover {
     color: rgba(255,255,255,0.5);
 }
 
-```css
+
 /* =====================================================
    MOBILE — FILMS MENU + HOME LAYOUT
 ===================================================== */
@@ -1038,18 +1032,14 @@ a:hover {
 
     .film-number {
         font-size: 9px;
-
         letter-spacing: 2px;
-
         margin-bottom: 4px;
     }
 
     .film-item a,
     .film-coming-soon {
         font-size: 22px;
-
         line-height: 1.08;
-
         text-align: center;
     }
 
@@ -1057,9 +1047,7 @@ a:hover {
         margin-top: 6px;
 
         font-size: 8px;
-
         letter-spacing: 1.5px;
-
         text-align: center;
     }
 
@@ -1112,15 +1100,12 @@ a:hover {
         font-family: "Jost", sans-serif;
 
         font-size: 8px;
-
         font-weight: 400;
 
         letter-spacing: 2px;
-
         line-height: 1;
 
         white-space: nowrap;
-
         text-align: center;
     }
 
@@ -1153,11 +1138,9 @@ a:hover {
         font-family: "Jost", sans-serif;
 
         font-size: 12px;
-
         font-weight: 400;
 
         letter-spacing: 1.8px;
-
         line-height: 1;
 
         white-space: nowrap;
@@ -1168,9 +1151,7 @@ a:hover {
     .top-nav a,
     .top-nav label {
         font-size: 12px;
-
         letter-spacing: 1.8px;
-
         white-space: nowrap;
     }
 
@@ -1194,11 +1175,9 @@ a:hover {
         font-family: "Jost", sans-serif;
 
         font-size: 12px;
-
         font-weight: 400;
 
         letter-spacing: 1.8px;
-
         line-height: 1;
 
         white-space: nowrap;
@@ -1208,7 +1187,6 @@ a:hover {
 
     .watch-btn a {
         font-size: 12px;
-
         letter-spacing: 1.8px;
     }
 
@@ -1218,21 +1196,15 @@ a:hover {
     ========================= */
 
     .film-item.active a {
-        color: red;
-
-        opacity: 1;
+    color: red;
+    opacity: 1;
+    text-shadow: 0 0 18px rgba(255, 0, 0, 0.18);
     }
 
-    /* Hide recording dot on mobile */
+    /* El punt continua ocult al mòbil */
 
     .film-live-dot {
         display: none;
     }
 
 }
-```
-
-
-
-}
-
