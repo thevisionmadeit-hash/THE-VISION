@@ -990,55 +990,79 @@ a:hover {
     color: rgba(255,255,255,0.5);
 }
 
-/* =========================
-   MOBILE — FILMS MENU
-========================= */
+```css
+/* =====================================================
+   MOBILE — FILMS MENU + HOME LAYOUT
+===================================================== */
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
+
+    /* =========================
+       FILMS MENU
+    ========================= */
 
     .films-menu {
-        top: 13%;
-        right: 6%;
+        top: 29%;
+        right: 7%;
+        left: 7%;
+
+        align-items: center;
     }
 
     .films-menu::before {
         top: -60px;
-        right: -80px;
+        right: -30px;
+        left: -30px;
 
-        width: 420px;
+        width: auto;
         height: 650px;
     }
 
+    .films-list {
+        width: 100%;
+
+        align-items: center;
+        text-align: center;
+
+        gap: 22px;
+    }
+
     .film-item {
-        margin-bottom: 20px;
+        width: 100%;
+
+        align-items: center;
+        text-align: center;
+
+        margin-bottom: 8px;
     }
 
     .film-number {
         font-size: 9px;
+
         letter-spacing: 2px;
+
         margin-bottom: 4px;
     }
 
     .film-item a,
     .film-coming-soon {
         font-size: 22px;
+
         line-height: 1.08;
+
+        text-align: center;
     }
 
     .film-location {
         margin-top: 6px;
 
         font-size: 8px;
+
         letter-spacing: 1.5px;
+
+        text-align: center;
     }
 
-}
-
-/* =====================================================
-   MOBILE — FINAL HOME LAYOUT
-===================================================== */
-
-@media (max-width: 600px) {
 
     /* =========================
        THE VISION
@@ -1049,6 +1073,7 @@ a:hover {
 
         top: 11%;
         left: 50%;
+
         transform: translateX(-50%);
 
         width: max-content;
@@ -1075,6 +1100,7 @@ a:hover {
 
         white-space: nowrap;
     }
+
 
     /* =========================
        WEDDING FILMS · EUROPE
@@ -1146,7 +1172,6 @@ a:hover {
         letter-spacing: 1.8px;
 
         white-space: nowrap;
- 
     }
 
 
@@ -1187,7 +1212,26 @@ a:hover {
         letter-spacing: 1.8px;
     }
 
+
+    /* =========================
+       ACTIVE FILM — MOBILE
+    ========================= */
+
+    .film-item.active a {
+        color: red;
+
+        opacity: 1;
+    }
+
+    /* Hide recording dot on mobile */
+
+    .film-live-dot {
+        display: none;
+    }
+
 }
+```
+
 
 
 }
