@@ -794,6 +794,12 @@ a:hover {
         font-size: 11px;
         letter-spacing: 2px;
     }
+
+    .contact-text,
+    .contact-text p {
+    font-size: 14px;
+    line-height: 1.5;
+}
 }
 
 /* =====================================================
